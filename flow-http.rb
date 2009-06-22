@@ -37,10 +37,14 @@ def process_response(menu_name, uri)
   puts "Response is: #{response.inspect.to_s}"
   response = case response[0]
   # redirect
-  when 'redirect'
+  when "redirect"
     puts "Redirect found!"
     $state[params[:client_id]] = response[1]
     get_response(menu_name, response[1])
+  when "url"
+    #TODO: validate that this is actually a http(s):// url
+    puts "URL found!"
+    [:message, open(response[1]).read]
   else
     response
   end

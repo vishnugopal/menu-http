@@ -2,6 +2,9 @@
   "index": [
     "menu",
     [
+      {
+        "message": "Please enter a food item"
+      },
       [
         "pizza",
         "Pizza"
@@ -13,11 +16,11 @@
     ]
   ],
   "pizza": [
-    "url",
-    "http:\/\/url1"
+    "message",
+    "Ordering pizza..."
   ],
   "coconut": [
-    "url",
-    "http:\/\/url2"
+    "message",
+    "Ordering coconut..."
   ]
 }

@@ -11,9 +11,7 @@ def flow_response_for_choices(choices)
   
   response = ""
   choices.each do |choice|
-    choice = choice.to_i - 1 unless choice == "index"
     url = "http://#{config[:flow_http_host]}:#{config[:flow_http_port]}/#{menu_name}/#{session_id}/#{choice}"
-    puts "Calling url: #{url}"
     response = JSON.load(open(url).read)
   end
   response

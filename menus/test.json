@@ -2,6 +2,9 @@
   "index": [
     "menu",
     [
+      {
+        "message": "Please select an option:"
+      },
       [
         "pizza",
         "Pizza"
@@ -12,19 +15,26 @@
       ],
       [ "loop", 
         "Loop for Fun!"
+      ],
+      [ "url", 
+        "Twitter URL"
       ]
     ]
   ],
   "pizza": [
-    "url",
-    "http:\/\/url1"
+    "message",
+    "Ordering pizza..."
   ],
   "coconut": [
-    "url",
-    "http:\/\/url2"
+    "message",
+    "Ordering coconut..."
   ],
   "loop": [
     "redirect",
     "index"
+  ],
+  "url": [
+    "url",
+    "http://twitter.com/statuses/show/123.json"
   ]
 }

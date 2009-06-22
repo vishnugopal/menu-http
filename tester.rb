@@ -29,10 +29,11 @@ end
 
 
 def menu(menu)
-  menu.each_with_index do |item, index|
+  puts menu[0]["message"]
+  menu[1..-1].each_with_index do |item, index|
     puts "#{index + 1}: #{item[1]}"
   end
-  gets.chomp.to_i - 1
+  gets.chomp.to_i
 end
 
 
