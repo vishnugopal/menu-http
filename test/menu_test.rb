@@ -9,7 +9,7 @@ class MenuHTTPTest < Test::Unit::TestCase
   end
 
   def test_redirect
-    expected = ["index", 3]
+    expected = ["menu", [["pizza", "Pizza"], ["coconut", "Coconut"], ["loop", "Loop for Fun!"]]]
     result = flow_response_for_choices(["index", 3])
     assert_equal(expected, result)
   end

@@ -9,11 +9,13 @@ def flow_response_for_choices(choices)
   menu_name = "test" 
   session_id = (rand * 1000).to_i
   
+  response = ""
   choices.each do |choice|
     choice = choice.to_i - 1 unless choice == "index"
     url = "http://#{config[:flow_http_host]}:#{config[:flow_http_port]}/#{menu_name}/#{session_id}/#{choice}"
     puts "Calling url: #{url}"
-    JSON.load(open(url).read)
+    response = JSON.load(open(url).read)
   end
+  response
 end
 
