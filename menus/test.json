@@ -1,0 +1,30 @@
+{
+  "index": [
+    "menu",
+    [
+      [
+        "pizza",
+        "Pizza"
+      ],
+      [
+        "coconut",
+        "Coconut"
+      ],
+      [ "loop", 
+        "Loop for Fun!"
+      ]
+    ]
+  ],
+  "pizza": [
+    "url",
+    "http:\/\/url1"
+  ],
+  "coconut": [
+    "url",
+    "http:\/\/url2"
+  ],
+  "loop": [
+    "redirect",
+    "index"
+  ]
+}

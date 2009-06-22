@@ -17,7 +17,7 @@ $config[:content_http_port] = "3301"
 
 # Use some other sort of caching, like Memcache, just implement [], []= for the new State Cache.
 # We use a hash only for demo purposes.
-# $state[state_id] just points to a URI, like "pizza/order"
+# $state[client_id] just points to a URI, like "pizza/order"
 $state ||= {}
 
 def get_response(menu_name, uri)
@@ -32,18 +32,33 @@ def get_key(menu_name, uri, choice)
   JSON.load(open(url).read)[0]
 end
 
-get '/:menu_name/:state_id/:choice' do
+def process_response(menu_name, uri)
+  response = JSON.load(get_response(menu_name, uri))
+  puts "Response is: #{response.inspect.to_s}"
+  response = case response[0]
+  # redirect
+  when 'redirect'
+    puts "Redirect found!"
+    $state[params[:client_id]] = response[1]
+    JSON.load(get_response(menu_name, response[1]))
+  else
+    response
+  end
+  response.to_json
+end
+
+get '/:menu_name/:client_id/:input' do
   content_type 'application/javascript', :charset => 'utf-8'
   
   puts "State is #{$state.inspect.to_s}"
   
-  if params[:choice] == "index"
-    $state[params[:state_id]] = "index"
-  else 
-    $state[params[:state_id]] = get_key(params[:menu_name], $state[params[:state_id]], params[:choice])
+  if params[:input] == "index"
+    $state[params[:client_id]] = "index"
+  elsif params[:input].to_i.to_s == params[:input] # i.e. it's an Integer
+    $state[params[:client_id]] = get_key(params[:menu_name], $state[params[:client_id]], params[:input])
   end
   
-  response = get_response(params[:menu_name], $state[params[:state_id]])
+  process_response(params[:menu_name], $state[params[:client_id]])
 end
 
 
