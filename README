@@ -10,10 +10,29 @@ The content of Menus are encoded as JSON in the following format.
 
 menus/sample1.json
 {
-  "index": ["menu", [["pizza", "Pizza"],["coconut", "Coconut"]]],
-  "pizza": ["url", "http:\/\/url1"],
-  "coconut": ["url", "http:\/\/url2"]
+  "index": [
+    "menu",
+    [
+      [
+        "pizza",
+        "Pizza"
+      ],
+      [
+        "coconut",
+        "Coconut"
+      ]
+    ]
+  ],
+  "pizza": [
+    "url",
+    "http:\/\/url1"
+  ],
+  "coconut": [
+    "url",
+    "http:\/\/url2"
+  ]
 }
+
 
 The entire JSON is a hash.
 
@@ -70,8 +89,50 @@ This means that the user with state_id 991 has now picked choice id 1 (which is 
 Response is currently JSON, but this can be changed depending on the client consumer. It can for example, be tailored to a specific USSD request-response client.
 
 
-3. menu-test.rb is a simple command-line client to test menus.
+3. tester.rb is a simple command-line client to test menus.
 It uses flow-http.rb to work.
+
+4. A very simple builder.rb is also included. The steps used to generate sample1.json are:
+
+What you have to type is prefixed with a '>'
+
+> ruby -rubygems menu-builder.rb
+Menu URI?
+> index
+Enter your next type (default 'menu')
+
+Next menu choice name?
+> Pizza
+Next menu uri target?
+> pizza
+Continue menu choices? (y/n)
+> y
+Next menu choice name?
+> Coconut
+Next menu uri target?
+> coconut
+Continue menu choices? (y/n)
+> n
+Continue menu creation? (y/n)
+> y
+Menu URI?
+> pizza
+Enter your next type (default 'menu')
+> url
+Menu value?
+> http://url1
+Continue menu creation? (y/n)
+> y
+Menu URI?
+> coconut
+Enter your next type (default 'menu')
+> url
+Menu value?
+> http://url2
+Continue menu creation? (y/n)
+> n
+Created Menu:
+(menu will be outputted here.)
 
 ---
 
