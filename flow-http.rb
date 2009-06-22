@@ -40,11 +40,12 @@ def process_response(menu_name, uri)
   when "redirect"
     puts "Redirect found!"
     $state[params[:client_id]] = response[1]
-    get_response(menu_name, response[1])
+    JSON.load(process_response(menu_name, response[1]))
   when "url"
     #TODO: validate that this is actually a http(s):// url
     puts "URL found!"
-    [:message, open(response[1]).read]
+    url_data = open(response[1]['location']).read
+    [:message, "#{response[1]['message_prefix']}#{url_data}#{response[1]['message_suffix']}"]
   else
     response
   end

@@ -35,6 +35,10 @@
   ],
   "url": [
     "url",
-    "http://twitter.com/statuses/show/123.json"
+    {
+      "location": "http://twitter.com/statuses/show/123.json",
+      "message_prefix": "",
+      "message_suffix": ""
+    }
   ]
 }
