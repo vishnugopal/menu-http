@@ -58,7 +58,7 @@ For e.g. /response/sample1/index is returns:
 Response is always a two-valued single dimensional JSON array.
 
 * /key/:menu_name/:uri/:choice
-This gets the key name for any URI and a particular menu_choice. Menu choices are numbered from 0 onwards, just like a C array.
+This gets the key name for any URI and a particular choice. Menu choices are numbered from 0 onwards, just like a C array.
 
 For e.g. /key/sample1/index/1 returns: 
 ["coconut"] 
@@ -69,22 +69,22 @@ The return type here is always a single-valued single-dimensional JSON array whi
 2.
 Flow-HTTP is responsible for overall flow and session handling. It is a smarter daemon and will need to be changed to handle most flow requirements. It for e.g. can process redirects or handle URL request responses, external DB lookups, etc.
 
-Menu clients interact directly with Flow-HTTP and passes on a unique state_id parameter to identify itself uniquely.
+Menu clients interact directly with Flow-HTTP and passes on a unique client_id parameter to identify itself uniquely.
 
 Flow-HTTP has just a single HTTP primitive:
-* /:menu_name/:state_id/:choice
-which for a given client with a unique state_id will return it's next response. 
+* /:menu_name/:client_id/:input
+which for a given client with a unique client_id will return it's next response. 
 The response can be a further nested menu or other response primitives.
- :choice is an integer menu choice, starting from 0 like a C array.
- :choice must be "index" to denote a start of menu flow.
+ :input is an integer menu choice, starting from 0 like a C array.
+ :input must be "index" to denote a start of menu flow.
  
 For e.g. two simultaneous requests will return:
 * /sample1/991/index
-(this means that the flow is just starting off for user with state_id 991)
+(this means that the flow is just starting off for user with client_id 991)
 so response is:
 ["menu",[["pizza","Pizza"],["coconut","Coconut"]]]
 * /sample1/991/1
-This means that the user with state_id 991 has now picked choice id 1 (which is actually the second choice) so the response is:
+This means that the user with client_id 991 has now picked choice id 1 (which is actually the second choice) so the response is:
 ["url","http:\/\/url2"]
 
 Response is currently JSON, but this can be changed depending on the client consumer. It can for example, be tailored to a specific USSD request-response client.

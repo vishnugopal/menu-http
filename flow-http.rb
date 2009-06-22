@@ -23,7 +23,7 @@ $state ||= {}
 def get_response(menu_name, uri)
   url = "http://#{$config[:content_http_host]}:#{$config[:content_http_port]}/response/#{menu_name}/#{uri}"
   puts "Calling url: #{url}"
-  open(url).read
+  JSON.load(open(url).read)
 end
 
 def get_key(menu_name, uri, choice)
@@ -33,14 +33,14 @@ def get_key(menu_name, uri, choice)
 end
 
 def process_response(menu_name, uri)
-  response = JSON.load(get_response(menu_name, uri))
+  response = get_response(menu_name, uri)
   puts "Response is: #{response.inspect.to_s}"
   response = case response[0]
   # redirect
   when 'redirect'
     puts "Redirect found!"
     $state[params[:client_id]] = response[1]
-    JSON.load(get_response(menu_name, response[1]))
+    get_response(menu_name, response[1])
   else
     response
   end
