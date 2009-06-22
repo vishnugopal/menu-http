@@ -15,18 +15,18 @@ def load_menu(menu_name)
  $cache[menu_name] ||= JSON.load(File.open("./menus/#{menu_name}.json"))
 end
 
-get '/response/:menu_name/:uri' do
+get '/response/:menu_name/*' do
   content_type 'application/javascript', :charset => 'utf-8'
 
   load_menu(params[:menu_name])
-  $cache[params[:menu_name]][params[:uri]].to_json
+  $cache[params[:menu_name]][params[:splat][0]].to_json
 end
 
-get '/key/:menu_name/:uri/:choice' do
+get '/key/:menu_name/*/:choice' do
   content_type 'application/javascript', :charset => 'utf-8'
 
   load_menu(params[:menu_name])
-  [$cache[params[:menu_name]][params[:uri]][1][params[:choice].to_i][0]].to_json
+  [$cache[params[:menu_name]][params[:splat][0]][1][params[:choice].to_i][0]].to_json
 end
 
 not_found do
