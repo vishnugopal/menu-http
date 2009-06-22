@@ -1,0 +1,78 @@
+
+1. Menu
+
+Menu is the most basic flow type.
+
+Structure e.g.:
+
+
+"index": [
+  "menu",
+  [
+    {
+      "message": "Please select an option:"
+    },
+    [
+      "pizza",
+      "Pizza"
+    ],
+    [
+      "coconut",
+      "Coconut"
+    ],
+    [ "loop", 
+      "Loop for Fun!"
+    ],
+    [ "url", 
+      "Twitter URL"
+    ]
+  ]
+]
+
+i.e. a uri: [ "menu", [ menu_data ] ] response pair, except the second value is itself an array.
+
+The first element of menu_data is a hash menu_metadata which contains metadata about the menu. The rest are two element arrays, the first is the pointer to the target URI, the second the message to be displayed.
+
+2. URL
+
+Structure:
+
+"url": [
+  "url",
+  {
+    "location": "http://twitter.com/statuses/show/123.json",
+    "message_prefix": "",
+    "message_suffix": ""
+  }
+]
+
+i.e. a uri: [ "url", { url_data } ] response pair, the second value is itself a hash.
+
+The hash has three defined parameters. Location is the location to fetch the data from, message_prefix and message_suffix can be added on to the response from the location.
+
+3. Redirect
+
+Structure:
+"loop": [
+  "redirect",
+  "index"
+],
+
+i.e. a uri: ["redirect", location] where location is a internal uri in the JSON. If the URI itself refers to other special structures (like for e.g. URL) they are evaluated as expected.
+
+4. Message
+Structure:
+"coconut": [
+  "message",
+  "Ordering coconut..."
+],
+
+i.e. a uri: ["message", message] where message is a string. The message is displayed back and evaluation is terminated.
+
+
+TODO types: 
+* Database - Given user, pass, host, db, table and query, return result
+* Case - Compare evaluated values (possibly from other nodes or static values) and branch on true or false
+
+
+

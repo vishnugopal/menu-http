@@ -44,6 +44,7 @@ The uri is always a string. We suggest following canonical URI notation, separat
 
 Response can be of many arbitrary types but it is ALWAYS a two-valued single-dimensional array - the first element is a response type (in the first case above "menu" and in the second case "url") and the second element is the content of the response which might vary according to the response type.
 
+For more on other types of responses, see README_FLOW_TYPES
 
 1. 
 Content-HTTP daemon is responsible for serving content from the JSON format. It is a dumb daemon and will not need to be changed to handle most flow requirements. The only special response type it recognizes (for reasons that will become obvious) is a "menu".
