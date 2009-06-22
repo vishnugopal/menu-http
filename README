@@ -1,0 +1,87 @@
+
+
+Menu-http simulates a simple request-response menu browser application.
+
+
+It's divided into logically separate HTTP daemons.
+
+0. 
+The content of Menus are encoded as JSON in the following format.
+
+menus/sample1.json
+{
+  "index": ["menu", [["pizza", "Pizza"],["coconut", "Coconut"]]],
+  "pizza": ["url", "http:\/\/url1"],
+  "coconut": ["url", "http:\/\/url2"]
+}
+
+The entire JSON is a hash.
+
+Each key-value pair denotes a "uri" to "response" mapping.
+
+In the first key-value pair above for example, the uri is "index" and the response is a "menu"
+
+The uri is always a string. We suggest following canonical URI notation, separating logical divisions by a "/" and omitting a preceding "/" - for e.g. "index" rather than "/index"
+
+Response can be of many arbitrary types but it is ALWAYS a two-valued single-dimensional array - the first element is a response type (in the first case above "menu" and in the second case "url") and the second element is the content of the response which might vary according to the response type.
+
+
+1. 
+Content-HTTP daemon is responsible for serving content from the JSON format. It is a dumb daemon and will not need to be changed to handle most flow requirements. The only special response type it recognizes (for reasons that will become obvious) is a "menu".
+
+It has two HTTP primitives:
+* /response/:menu_name/:uri
+This serves the response for menu_name & uri in JSON format by simply fetching the hash response.
+
+For e.g. /response/sample1/index is returns:
+["menu",[["pizza","Pizza"],["coconut","Coconut"]]]
+
+Response is always a two-valued single dimensional JSON array.
+
+* /key/:menu_name/:uri/:choice
+This gets the key name for any URI and a particular menu_choice. Menu choices are numbered from 0 onwards, just like a C array.
+
+For e.g. /key/sample1/index/2 returns: 
+["coconut"] 
+
+The return type here is always a single-valued single-dimensional JSON array which contains the key name.
+
+2.
+Flow-HTTP is responsible for overall flow and session handling. It is a smarter daemon and will need to be changed to handle most flow requirements. It for e.g. can process redirects or handle URL request responses, external DB lookups, etc.
+
+Menu clients interact directly with Flow-HTTP and passes on a unique state_id parameter to identify itself uniquely.
+
+Flow-HTTP has just a single HTTP primitive:
+* /:menu_name/:state_id/:choice
+
+For a given client with a unique state_id, return it's next response. 
+ :choice is an integer menu choice, starting from 0 like a C array.
+ :choice must be "index" to denote a start of menu flow.
+ 
+For e.g. two simultaneous requests will return:
+* /sample1/991/index
+(this means that the flow is just starting off for user with state_id 991)
+so response is:
+["menu",[["pizza","Pizza"],["coconut","Coconut"]]]
+* /sample1/991/1
+This means that the user with state_id 991 has now picked choice id 1 (which is actually the second choice) so the response is:
+["url","http:\/\/url2"]
+
+Response is currently JSON, but this can be changed depending on the client consumer. It can for example, be tailored to a specific USSD request-response client.
+
+
+3. menu-test.rb is a simple command-line client to test menus.
+It uses flow-http.rb to work.
+
+---
+
+So why the content and flow separation?
+* Content can serve multiple flow daemons. There can be a generic flow daemon which handles the most common type of responses (and which works from a GUI generated JSON output) and specialized ones for more complicated tasks.
+* Content daemon can be modified to reload changed menus (using a periodic mtime check on menus/*.json) on the fly without affecting flow. This is a TODO.
+
+
+
+ 
+
+
+
