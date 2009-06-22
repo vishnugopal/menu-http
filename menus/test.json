@@ -13,11 +13,17 @@
         "coconut",
         "Coconut"
       ],
-      [ "loop", 
+      [ 
+        "loop", 
         "Loop for Fun!"
       ],
-      [ "url", 
+      [ 
+        "url", 
         "Twitter URL"
+      ],
+      [ 
+        "case",
+        "Case check!"
       ]
     ]
   ],
@@ -40,5 +46,38 @@
       "message_prefix": "",
       "message_suffix": ""
     }
+  ],
+  "db": [
+    "message",
+    "12"
+  ],
+  "case": [
+    "case",
+    {
+      "left": 
+      { 
+        "uri": "db" 
+      },
+      "right": 
+      { 
+        "value": 42 
+      },
+      "comparison": "number-<",
+      "true": "case/enough",
+      "false": "case/badbad",
+      "error": "case/error"
+    }
+  ],
+  "case/enough": [
+    "message",
+    "True enough!"
+  ], 
+  "case/badbad": [
+    "message",
+    "Bad, bad!"
+  ],
+  "case/error": [
+    "message",
+    "Whoopsie!"
   ]
 }

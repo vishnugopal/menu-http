@@ -69,10 +69,52 @@ Structure:
 
 i.e. a uri: ["message", message] where message is a string. The message is displayed back and evaluation is terminated.
 
+5. Case
+Structure:
+"case": [
+  "case",
+  {
+    "left": 
+    { 
+      "uri": "db" 
+    },
+    "right": 
+    { 
+      "value": 42 
+    },
+    "comparison": "number-less-than",
+    "true": "case/enough",
+    "false": "case/badbad",
+    "error": "case/error"
+  }
+]
+
+i.e. a uri: ["case", { case_options }] structure.
+
+where case_options _must include_ all of:
+left: The left value or uri to compare
+right: The right value or uri to compare
+comparison: One of:
+  number->
+  number=>=
+  number-<
+  number-<=
+  number-=
+  number-!=
+  string-=
+  string-!=
+Each comparison is done with left <comparison operator> right.
+true: Branched to in case comparison is true.
+false: Branched to in case comparison is false.
+
+left and right can take a hash, which has a single key value pair,
+either of "uri" which fully evaluates a uri or "value" which compares with a value.
+
+Similarly, true and false are as expected fully evaluated.
 
 TODO types: 
-* Database - Given user, pass, host, db, table and query, return result
-* Case - Compare evaluated values (possibly from other nodes or static values) and branch on true or false
+* Database - Given user, pass, host, db, table, db type and query, return result
+
 
 
 

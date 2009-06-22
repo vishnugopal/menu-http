@@ -46,6 +46,41 @@ def process_response(menu_name, uri)
     puts "URL found!"
     url_data = open(response[1]['location']).read
     [:message, "#{response[1]['message_prefix']}#{url_data}#{response[1]['message_suffix']}"]
+  when "case"
+    case_options = response[1]
+    left = if case_options['left']['uri'] 
+      JSON.load(process_response(menu_name, case_options['left']['uri']))[1]
+    else
+      case_options['left']['value']
+    end
+    right = if case_options['right']['uri'] 
+      JSON.load(process_response(menu_name, case_options['right']['uri']))[1] 
+    else
+      case_options['right']['value']
+    end
+    case_true = case case_options['comparison']
+    when "number->"
+      left.to_i > right.to_i
+    when "number->="
+      left.to_i >= right.to_i
+    when "number-<"
+      left.to_i < right.to_i
+    when "number-<="
+      left.to_i <= right.to_i
+    when "number-="
+      left.to_i == right.to_i
+    when "number-!="
+      left.to_i != right.to_i
+    when "string-="
+      left.to_s == right.to_s
+    when "string-!="
+      left.to_s != right.to_s
+    end
+    if case_true
+      JSON.load(process_response(menu_name, case_options['true']))
+    else
+      JSON.load(process_response(menu_name, case_options['false']))
+    end
   else
     response
   end
