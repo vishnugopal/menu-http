@@ -44,7 +44,6 @@ get '/:menu_name/:state_id/:choice' do
   end
   
   response = get_response(params[:menu_name], $state[params[:state_id]])
-  
 end
 
 
