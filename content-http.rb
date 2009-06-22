@@ -12,7 +12,7 @@ $curr_path = File.dirname(__FILE__)
 class MenuNotFoundError < StandardError; end
 
 def load_menu(menu_name)
- $cache[menu_name] ||= JSON.load(File.open("./menus/#{menu_name}.json"))
+ $cache[menu_name] ||= JSON.load(File.open("#{$curr_path}/menus/#{menu_name}.json"))
 end
 
 get '/response/:menu_name/*' do

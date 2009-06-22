@@ -60,8 +60,9 @@ Response is always a two-valued single dimensional JSON array.
 * /key/:menu_name/:uri/:choice
 This gets the key name for any URI and a particular menu_choice. Menu choices are numbered from 0 onwards, just like a C array.
 
-For e.g. /key/sample1/index/2 returns: 
+For e.g. /key/sample1/index/1 returns: 
 ["coconut"] 
+(which is the second key)
 
 The return type here is always a single-valued single-dimensional JSON array which contains the key name.
 
@@ -72,8 +73,8 @@ Menu clients interact directly with Flow-HTTP and passes on a unique state_id pa
 
 Flow-HTTP has just a single HTTP primitive:
 * /:menu_name/:state_id/:choice
-
-For a given client with a unique state_id, return it's next response. 
+which for a given client with a unique state_id will return it's next response. 
+The response can be a further nested menu or other response primitives.
  :choice is an integer menu choice, starting from 0 like a C array.
  :choice must be "index" to denote a start of menu flow.
  
