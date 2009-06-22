@@ -9,6 +9,7 @@
 require 'open-uri'
 require 'json'
 require 'sinatra'
+require 'active_record'
 
 
 $config = {}
@@ -81,6 +82,19 @@ def process_response(menu_name, uri)
     else
       JSON.load(process_response(menu_name, case_options['false']))
     end
+  when "database"
+    connection = response[1]['connection']
+    query = response[1]['query']
+    organize = response[1]['organize']
+    ActiveRecord::Base.establish_connection(connection)
+    result = ActiveRecord::Base.connection.execute(query)
+    puts "Got result as #{result.inspect.to_s}"
+    result = if organize == "single"
+      result[0][0]
+    elsif organize == "list"
+      result.map { |item| item[0] }.join(", ")
+    end
+    ["message", "#{result}"]
   else
     response
   end

@@ -8,6 +8,15 @@ class MenuHTTPTest < Test::Unit::TestCase
   def teardown
   end
 
+  def test_menu
+    expected = [
+      "message",
+      "Ordering pizza..."
+    ]
+    result = flow_response_for_choices(["index", 1])
+    assert_equal(expected, result)
+  end
+  
   def test_redirect
     expected = ["menu",
      [{"message"=>"Please select an option:"},
@@ -15,7 +24,8 @@ class MenuHTTPTest < Test::Unit::TestCase
       ["coconut", "Coconut"],
       ["loop", "Loop for Fun!"],
       ["url", "Twitter URL"],
-      ["case", "Case check!"]]]
+      ["case", "Case check!"],
+      ["db/multiple", "Database multiple check!"]]]
     result = flow_response_for_choices(["index", 3])
     assert_equal(expected, result)
   end
@@ -27,9 +37,16 @@ class MenuHTTPTest < Test::Unit::TestCase
     assert_equal(expected, result)
   end
   
-  def test_case
+  def test_case_and_db
     expected = ["message","True enough!"]
     result = flow_response_for_choices(["index", 5])
     assert_equal(expected, result)
   end
+  
+  def test_db_multiple
+    expected = ["message", "hello, world"]
+    result = flow_response_for_choices(["index", 6])
+    assert_equal(expected, result)
+  end
+    
 end

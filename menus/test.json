@@ -24,6 +24,9 @@
       [ 
         "case",
         "Case check!"
+      ],
+      [ "db/multiple", 
+        "Database multiple check!"
       ]
     ]
   ],
@@ -47,9 +50,29 @@
       "message_suffix": ""
     }
   ],
+  "db/multiple": [
+    "database",
+    {
+      "connection": 
+      {
+        "adapter": "sqlite3",
+        "database": "./test/test.db"
+      },
+      "query": "SELECT value FROM test",
+      "organize": "list"
+    }
+  ],
   "db": [
-    "message",
-    "12"
+    "database",
+    {
+      "connection": 
+      {
+        "adapter": "sqlite3",
+        "database": "./test/test.db"
+      },
+      "query": "SELECT value FROM test WHERE id = 2;",
+      "organize": "single"
+    }
   ],
   "case": [
     "case",
@@ -60,9 +83,9 @@
       },
       "right": 
       { 
-        "value": 42 
+        "value": "world" 
       },
-      "comparison": "number-<",
+      "comparison": "string-=",
       "true": "case/enough",
       "false": "case/badbad",
       "error": "case/error"

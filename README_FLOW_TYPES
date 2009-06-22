@@ -112,9 +112,27 @@ either of "uri" which fully evaluates a uri or "value" which compares with a val
 
 Similarly, true and false are as expected fully evaluated.
 
-TODO types: 
-* Database - Given user, pass, host, db, table, db type and query, return result
+6. Database
+Structure:
+"db": [
+  "database",
+  {
+    "connection": 
+    {
+      "adapter": "sqlite3",
+      "database": "./test/test.db"
+    },
+    "query": "SELECT value FROM test WHERE id = 2;",
+    "organize": "single"
+  }
+]
 
+i.e. uri: [ "database", { database_options }]
+database_options has another hash inside this called connection. connection's keys are dependent on the adapter. Please see ActiveRecord's documentation on the correct keys for the DB of your choice. We're use Sqlite3 above.
 
+query: is the query to run.
+organize: is how you want the result to be returned. 
+  "single": works best if there's only one value to be returned.
+  "list": works best if there are more than one values to be returned. The values are returned in a comma-separated list.
 
 
