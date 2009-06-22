@@ -1,1 +1,23 @@
-{"index":["menu",[["pizza","Pizza"],["coconut","Coconut"]]],"pizza":["url","http:\/\/url1"],"coconut":["url","http:\/\/url2"]}
+{
+  "index": [
+    "menu",
+    [
+      [
+        "pizza",
+        "Pizza"
+      ],
+      [
+        "coconut",
+        "Coconut"
+      ]
+    ]
+  ],
+  "pizza": [
+    "url",
+    "http:\/\/url1"
+  ],
+  "coconut": [
+    "url",
+    "http:\/\/url2"
+  ]
+}
